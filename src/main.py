@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from sqlmodel import SQLModel, Field, Session, create_engine, func, select
+from fastapi.staticfiles import StaticFiles
 
 class Idea(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
@@ -68,3 +69,5 @@ def vote(idea_id: int, payload: VoteCreate):
         vote = Vote(idea_id=idea_id, **payload.model_dump())
         s.add(vote); s.commit(); s.refresh(vote)
         return vote
+
+app.mount("/", StaticFiles(directory="web", html=True), name="web")
