@@ -5,9 +5,38 @@ async function loadIdeas() { //create an async function
  for (const idea of ideas) { // basically just display all current ideas
  const li = document.createElement("li");
  li.textContent = `${idea.title} (${idea.vote_count} votes)`;
- list.append(li);
- }
+
+ // create vote button
+ const button = document.createElement("button");
+ button.textContent = "Vote";
+
+ // listen for clicks on button
+ button.addEventListener("click", async () => {
+    const voter = document.querySelector("#voter").value;
+
+    if (voter ){
+        button.disabled = true; // button is disabled if it is pressed
+        // send POST request to record vote
+        const response = await fetch(`/ideas/${idea.id}/votes`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ voter: voter })
+                });
+
+                if (response.ok) {
+                    list.replaceChildren();
+                    await loadIdeas();
+                } else {
+                    button.disabled = false;
+                }
+            }
+        });
+
+        li.append(button); // Add vote button to list item
+        list.append(li); // Display list item on webpage
+    }
 }
+
 loadIdeas();
 
 const form = document.querySelector("#idea-form"); // find idea form from html
@@ -32,8 +61,6 @@ form.addEventListener("submit", async (event) => { // react to form
 
 });
 
-async function document.createElement("button") {
-    
-}
+
 
 
