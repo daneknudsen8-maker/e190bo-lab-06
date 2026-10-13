@@ -1,9 +1,31 @@
+/* Light theme colors */
+:root {
+    --background: #ffffff;
+    --text: #222222;
+    --surface: #f0f0f0;
+    --border: #cccccc;
+    --spotlight-background: #fff3cd;
+    --spotlight-border: #e6b800;
+}
+
+/* Dark theme colors */
+:root[data-theme="dark"] {
+    --background: #181818;
+    --text: #f5f5f5;
+    --surface: #303030;
+    --border: #777777;
+    --spotlight-background: #483c12;
+    --spotlight-border: #f0c640;
+}
+
 /* General page styling */
 body {
     font-family: Arial, sans-serif;
     max-width: 800px;
     margin: 40px auto;
     padding: 20px;
+    background-color: var(--background);
+    color: var(--text);
 }
 
 /* Page heading */
@@ -16,6 +38,10 @@ input, select, button {
     padding: 10px;
     margin: 5px;
     font-size: 16px;
+    background-color: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 5px;
 }
 
 /* Ideas list */
@@ -26,8 +52,8 @@ li {
 
 /* Highlight the highest-voted idea */
 .top-idea {
-    background-color: #fff3cd;
-    border: 2px solid #e6b800;
+    background-color: var(--spotlight-background);
+    border: 2px solid var(--spotlight-border);
     border-radius: 8px;
     padding: 12px;
     margin-bottom: 8px;
