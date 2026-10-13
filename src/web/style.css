@@ -59,3 +59,39 @@ li {
     margin-bottom: 8px;
     font-weight: bold;
 }
+
+
+
+/* Make the page work on mobile screens */
+@media (max-width: 600px) {
+    body {
+        margin: 0;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    /* Make inputs and buttons fit the screen */
+    input, select, button {
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+    /* Put form inputs on separate lines */
+    input, select {
+        display: block;
+        width: 100%;
+        margin: 8px 0;
+    }
+
+    /* Keep idea cards inside the screen */
+    ul {
+        padding-left: 20px;
+    }
+
+    li {
+        overflow-wrap: break-word;
+    }
+}
