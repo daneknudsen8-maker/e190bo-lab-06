@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <link rel="stylesheet" href="style.css">
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>Idea board</title>
+ <script src="app.js" defer></script>
+</head>
+<body> <!--beginning of visible content on the page-->
+    <h1>Idea board</h1> <!-- large heading for Idea Board -->
+    <form id="idea-form"> <!-- creates a form that groups together inputs, gives JavaScript an identifier -->
+        <label for="title">Idea title</label> <!--label next to input box-->
+        <input id="title" type="text" required> <!--create text input field with ID 'title'-->
+        <button type="submit">Add idea</button> <!--button for submitting-->
+        </form>
+    <ul id="ideas"></ul> <!-- create empty list that can be displayed on page-->
+</body> <!-- end of visible content on the page-->
+</html>
