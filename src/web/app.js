@@ -1,7 +1,28 @@
 const list = document.querySelector("#ideas"); // create variable that references the element with #ideas in the html
+
+//loadIdeas() loads the page and displays everything
 async function loadIdeas() { //create an async function
+ list.textContent = "Loading ideas..."; // display loading state
+
+try {
+    const response = await fetch("/ideas");
+
+    if (!response.ok) {
+        throw new Error("Failed to load ideas");
+        }
+
+
  const response = await fetch("/ideas"); // GET request, wait for response before continuing to run this code
  const ideas = await response.json(); // convert response into javascript
+ list.replaceChildren(); // remove loading message
+
+
+ // empty state
+ if (ideas.length === 0) {
+    const li = document.createElement("li");
+    li.textContent = "No ideas yet. Add the first one!";
+    list.append(li);
+}
  for (const idea of ideas) { // basically just display all current ideas
  const li = document.createElement("li");
  li.textContent = `${idea.title} (${idea.vote_count} votes)`;
@@ -17,12 +38,12 @@ async function loadIdeas() { //create an async function
     if (voter ){
         button.disabled = true; // button is disabled if it is pressed
         // send POST request to record vote
-        const response = await fetch(`/ideas/${idea.id}/votes`, {
+        const response = await fetch(`/ideas/${idea.id}/vote`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ voter: voter })
                 });
-
+                // reload the list
                 if (response.ok) {
                     list.replaceChildren();
                     await loadIdeas();
