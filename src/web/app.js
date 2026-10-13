@@ -190,3 +190,36 @@ form.addEventListener("submit", async (event) => { // react to form
         status.textContent = "Could not add idea. Please try again.";
     }
 });
+
+
+
+const themeButton = document.querySelector("#theme-toggle");
+
+const savedTheme = localStorage.getItem("theme");
+const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+if (savedTheme === "dark") {
+    document.documentElement.dataset.theme = "dark";
+    themeButton.setAttribute("aria-pressed", "true");
+} else if (savedTheme === "light") {
+    document.documentElement.dataset.theme = "light";
+    themeButton.setAttribute("aria-pressed", "false");
+} else if (systemDark) {
+    document.documentElement.dataset.theme = "dark";
+    themeButton.setAttribute("aria-pressed", "true");
+} else {
+    document.documentElement.dataset.theme = "light";
+    themeButton.setAttribute("aria-pressed", "false");
+}
+
+themeButton.addEventListener("click", () => {
+    if (document.documentElement.dataset.theme === "dark") {
+        document.documentElement.dataset.theme = "light";
+        themeButton.setAttribute("aria-pressed", "false");
+        localStorage.setItem("theme", "light");
+    } else {
+        document.documentElement.dataset.theme = "dark";
+        themeButton.setAttribute("aria-pressed", "true");
+        localStorage.setItem("theme", "dark");
+    }
+});
