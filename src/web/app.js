@@ -2,30 +2,24 @@ const list = document.querySelector("#ideas"); // create variable that reference
 
 //loadIdeas() loads the page and displays everything
 async function loadIdeas() { //create an async function
- list.textContent = "Loading ideas..."; // display loading state
-
-try {
-    const response = await fetch("/ideas");
-
-    if (!response.ok) {
-        throw new Error("Failed to load ideas");
+    list.textContent = "Loading ideas..."; // display loading state
+    try {
+        const response = await fetch("/ideas"); // GET request, wait for response before continuing to run this code
+        if (!response.ok) {
+            throw new Error("failed to load ideas, pal");
         }
+        const ideas = await response.json(); // convert response into javascript
+        list.replaceChildren(); // remove loading message
 
-
- const response = await fetch("/ideas"); // GET request, wait for response before continuing to run this code
- const ideas = await response.json(); // convert response into javascript
- list.replaceChildren(); // remove loading message
-
-
- // empty state
- if (ideas.length === 0) {
-    const li = document.createElement("li");
-    li.textContent = "No ideas yet. Add the first one!";
-    list.append(li);
-}
- for (const idea of ideas) { // basically just display all current ideas
- const li = document.createElement("li");
- li.textContent = `${idea.title} (${idea.vote_count} votes)`;
+        // empty state
+        if (ideas.length === 0) {
+            const li = document.createElement("li");
+            li.textContent = "No ideas yet. Add the first one!";
+            list.append(li);
+        }
+        for (const idea of ideas) { // basically just display all current ideas
+        const li = document.createElement("li");
+        li.textContent = `${idea.title} (${idea.vote_count} votes)`;
 
  // create vote button
  const button = document.createElement("button");
@@ -56,9 +50,14 @@ try {
         li.append(button); // Add vote button to list item
         list.append(li); // Display list item on webpage
     }
+    } catch (err) {
+        // Display error message if loading fails
+        list.textContent = "Could not load ideas. Please try again.";
+    }
 }
-
 loadIdeas();
+
+
 
 const form = document.querySelector("#idea-form"); // find idea form from html
 
