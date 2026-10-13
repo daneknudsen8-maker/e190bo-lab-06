@@ -1,0 +1,35 @@
+/* General page styling */
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* Page heading */
+h1 {
+    text-align: center;
+}
+
+/* Form controls */
+input, select, button {
+    padding: 10px;
+    margin: 5px;
+    font-size: 16px;
+}
+
+/* Ideas list */
+li {
+    padding: 12px;
+    margin-bottom: 8px;
+}
+
+/* Highlight the highest-voted idea */
+.top-idea {
+    background-color: #fff3cd;
+    border: 2px solid #e6b800;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
