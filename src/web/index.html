@@ -14,8 +14,23 @@
         <input id="title" type="text" required> <!--create text input field with ID 'title'-->
         <button type="submit">Add idea</button> <!--button for submitting-->
         </form>
+        <p id="add-status" role="status"></p>
         <label for="voter" >Name here</label> <!-- create voter element-->
         <input id="voter" type="text" required> <!-- input for voter name-->
+        <p id="vote-status" role="status"></p>
+
+        <!-- search and sort controls -->
+    <label for="search">Search ideas</label>
+    <input id="search" type="text" placeholder="Search ideas...">
+
+    <label for="sort">Sort ideas</label>
+    <select id="sort">
+        <option value="votes">Most votes</option>
+        <option value="newest">Newest first</option>
+        <option value="alphabetical">Alphabetical</option>
+    </select>
+
+    <p id="results-count" role="status"></p>
     <ul id="ideas"></ul> <!-- create empty list that can be displayed on page-->
 </body> <!-- end of visible content on the page-->
 </html>

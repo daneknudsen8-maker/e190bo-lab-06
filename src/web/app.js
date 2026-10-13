@@ -25,34 +25,56 @@ async function loadIdeas() { //create an async function
  const button = document.createElement("button");
  button.textContent = "Vote";
 
- // listen for clicks on button
- button.addEventListener("click", async () => {
-    const voter = document.querySelector("#voter").value;
 
-    if (voter ){
+ // listen for clicks on button
+button.addEventListener("click", async () => {
+    const voter = document.querySelector("#voter").value;
+    const voteStatus = document.querySelector("#vote-status");
+
+    if (voter) {
         button.disabled = true; // button is disabled if it is pressed
-        // send POST request to record vote
-        const response = await fetch(`/ideas/${idea.id}/vote`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ voter: voter })
-                });
-                // reload the list
-                if (response.ok) {
-                    list.replaceChildren();
-                    await loadIdeas();
-                } else {
-                    button.disabled = false;
-                }
+        button.textContent = "Voting...";
+        voteStatus.textContent = "";
+
+        try {
+            // send POST request to record vote
+            const response = await fetch(`/ideas/${idea.id}/vote`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ voter: voter })
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to record vote");
             }
-        });
+
+            // reload the list
+            list.replaceChildren();
+            await loadIdeas();
+
+        } catch (err) {
+            button.disabled = false;
+            button.textContent = "Vote";
+            voteStatus.textContent = "Could not record vote. Please try again.";
+        }
+
+    } else {
+        voteStatus.textContent = "Please enter your name before voting.";
+    }
+});
 
         li.append(button); // Add vote button to list item
         list.append(li); // Display list item on webpage
     }
     } catch (err) {
-        // Display error message if loading fails
-        list.textContent = "Could not load ideas. Please try again.";
+        list.textContent = "Could not load ideas.";
+        const button = document.createElement("button");
+        button.textContent = "Retry";
+        button.addEventListener("click", async () => {
+            await loadIdeas();
+    });
+
+    list.append(button);
     }
 }
 loadIdeas();
@@ -67,16 +89,28 @@ form.addEventListener("submit", async (event) => { // react to form
     event.preventDefault(); // stop normal submission behavior
 
     const title = document.querySelector("#title").value; // read input and put it in variable 'title'
-    const response = await fetch("/ideas", { // send POST request to the backend
-        method: "POST", // HTTP method
-        headers: { "Content-Type": "application/json" }, // denoting that data submitted is in JSON
-        body: JSON.stringify({ title: title }) // the actual text getting put into the db
-    });
+    const status = document.querySelector("#add-status");
 
-    if (response.ok) {
+    status.textContent = "Adding idea...";
+
+    try {
+        const response = await fetch("/ideas", { // send POST request to the backend
+            method: "POST", // HTTP method
+            headers: { "Content-Type": "application/json" }, // denoting that data submitted is in JSON
+            body: JSON.stringify({ title: title }) // the actual text getting put into the db
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to add idea");
+        }
+
         document.querySelector("#title").value = ""; // clear the input box
+        status.textContent = "Idea added successfully!";
         list.replaceChildren(); // clear everything first because we are about to reload
         await loadIdeas(); // display new list of all ideas
+
+    } catch (err) {
+        status.textContent = "Could not add idea. Please try again.";
     }
 
 });
